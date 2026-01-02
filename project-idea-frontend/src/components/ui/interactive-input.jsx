@@ -158,7 +158,7 @@ const InteractiveInput = React.forwardRef((
         className,
       }), glow && "shadow-glow-scoped")}
       style={combinedStyle}>
-      <style jsx>{inputStyle}</style>
+      <style dangerouslySetInnerHTML={{ __html: inputStyle }} />
       {!hideAnimations && (
         <div
           className="absolute inset-0 overflow-visible -z-30 blur-[2px] [container-type:size]">

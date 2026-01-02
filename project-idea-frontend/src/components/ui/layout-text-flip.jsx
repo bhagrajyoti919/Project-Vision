@@ -29,18 +29,23 @@ export const LayoutTextFlip = ({
       </motion.span>
       <motion.span
         layout
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
         className={cn("relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-2 py-1 font-sans font-bold tracking-tight text-black shadow-sm ring shadow-black/10 ring-black/10 drop-shadow-lg dark:bg-neutral-900 dark:text-white dark:shadow-sm dark:ring-1 dark:shadow-white/10 dark:ring-white/10", boxClassName)}>
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.span
             key={currentIndex}
-            initial={{ y: -20, filter: "blur(5px)" }}
+            initial={{ y: "100%", opacity: 0, filter: "blur(8px)" }}
             animate={{
               y: 0,
+              opacity: 1,
               filter: "blur(0px)",
             }}
-            exit={{ y: 20, filter: "blur(5px)", opacity: 0 }}
+            exit={{ y: "-100%", opacity: 0, filter: "blur(8px)" }}
             transition={{
-              duration: 0.3,
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              mass: 0.8
             }}
             className="inline-block whitespace-nowrap">
             {words[currentIndex]}

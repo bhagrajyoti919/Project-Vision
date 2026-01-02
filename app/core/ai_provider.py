@@ -17,14 +17,14 @@ async def gemini_generate(project_context):
     """
 
     response = client.models.generate_content(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash",
         contents=prompt
     )
     return response.text
 
 async def gemini_generate_generic(prompt_text):
     response = client.models.generate_content(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash",
         contents=prompt_text
     )
     return response.text

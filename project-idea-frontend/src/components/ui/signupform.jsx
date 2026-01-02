@@ -60,10 +60,10 @@ export function SignupForm({
 
   return (
     <div
-      className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+      className={cn("bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10", className)}>
       <div className="w-full max-w-sm  md:max-w-3xl">
         <div
-          className={cn("flex flex-col gap-6 overflow-hidden ", className)}
+          className="flex flex-col gap-6 overflow-hidden "
           {...props}>
           <Transition
             intro={introContent}
@@ -71,12 +71,12 @@ export function SignupForm({
             transitionDuration={1.2}
             type="slide"
             direction="right"
-            className="bg-neutral-900 dark:bg-white rounded-xl"
+            className="bg-neutral-900 dark:bg-black rounded-xl"
             autoExit={false}
             onFinished={() => setTransitionEnded(true)}>
             <Card className="overflow-hidden p-0 border-0 backdrop-blur-sm">
               <CardContent
-                className="grid p-0 md:grid-cols-2 bg-[hsla(240,4%,16%,1)]  dark:bg-white">
+                className="grid p-0 md:grid-cols-2 bg-[hsla(240,4%,16%,1)]  dark:bg-black">
                 <div className="p-6 md:p-8 relative">
                   <div className="flex flex-col gap-6 relative z-10">
                     <div className="flex flex-col items-center text-center">

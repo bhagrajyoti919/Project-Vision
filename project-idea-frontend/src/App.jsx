@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Sidebar, SidebarBody, SidebarLink } from "./components/ui/sidebar";
 import { InfiniteMovingCards } from "./components/ui/infinite-moving-cards";
@@ -23,39 +23,46 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { ShootingStars } from "@/components/ui/shooting-stars";
+import { StarsBackground } from "@/components/ui/stars-background";
 
 const API = "http://localhost:8000/api/v1";
 
 const testimonials = [
   {
-    title: "TechFlow",
-    href: "https://twitter.com/mannupaaji",
+    title: "Reddit",
+    href: "https://www.reddit.com/r/Startup_Ideas/",
     heading: "Startup Idea",
     description: "This platform sparked the idea for my startup. The AI suggestions are incredibly detailed!",
+    imageUrl: "/startup-card.png"
   },
   {
-    title: "DevPortfolio",
-    href: "https://twitter.com/mannupaaji",
+    title: "Canva",
+    href: "https://www.canva.com/create/portfolios/",
     heading: "Portfolio Builder",
     description: "I was stuck in a tutorial hell until I found this. Now I'm building real projects.",
+    imageUrl: "/portfolio-card.png"
   },
   {
-    title: "IdeaTracker",
-    href: "https://twitter.com/mannupaaji",
-    heading: "Product Management",
+    title: "linkedin",
+    href: "https://www.linkedin.com/feed/",
+    heading: "LinkedIn",
     description: "The project history feature helps me keep track of all my crazy ideas.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
   },
   {
-    title: "CreativeUI",
-    href: "https://twitter.com/mannupaaji",
-    heading: "UX Design",
+    title: "Pinterest",
+    href: "https://www.pinterest.com/warmarc/ui-design/",
+    heading: "UI Design",
     description: "Love the dark mode and the smooth UI. It makes brainstorming so much fun.",
+    imageUrl: "/ui-design-card.png"
   },
   {
-    title: "BlockChainZ",
-    href: "https://twitter.com/mannupaaji",
-    heading: "Hackathon Winner",
+    title: "GitHub",
+    href: "https://github.com/",
+    heading: "GitHub",
     description: "Generated a blockchain idea that won me a hackathon. Highly recommended!",
+    imageUrl: "/github-card.png"
   },
 ];
 
@@ -65,9 +72,13 @@ const stats = [
   { value: 99, suffix: "%", label: "Performance optimized for web" },
 ];
 
+import { MacbookScrollDemo } from "@/components/MacbookScrollSection";
+import { SettingsModal } from "@/components/ui/settings-modal";
+
 export default function App() {
   const [open, setOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [authView, setAuthView] = useState("login"); // "login" or "signup"
   const [userId, setUserId] = useState("");
   const [project, setProject] = useState(null);
@@ -93,6 +104,8 @@ export default function App() {
     imagePrompt: null,
     externalLinks: null,
   });
+
+  const scrollRef = useRef(null);
 
   const generateRandomProject = async () => {
     setLoading(true);
@@ -183,7 +196,7 @@ export default function App() {
   const links = [
     {
       label: "Dashboard",
-      href: "#",
+      href: "#dashboard",
       icon: (
         <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -194,6 +207,7 @@ export default function App() {
       icon: (
         <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
+      onClick: () => setIsSettingsOpen(true),
     },
     {
       label: "Logout",
@@ -244,9 +258,15 @@ export default function App() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <div className="flex flex-1 overflow-hidden relative">
+      <div className="flex flex-1 overflow-hidden relative bg-neutral-900 dark">
+        <ShootingStars className="absolute inset-0 z-0" />
+        <StarsBackground className="absolute inset-0 z-0" />
+          <div ref={scrollRef} className="flex-1 overflow-auto z-10 relative">
+     <div className="p-6">
+     <div id="dashboard" className="mb-10">
+               <MacbookScrollDemo containerRef={scrollRef} />
+             </div>
 
-          <div className="flex-1 overflow-auto p-6 z-10 relative">
              <div className="max-w-4xl mx-auto">
              <header className="mb-12 text-center">
                 <div className="flex justify-center items-center mb-4">
@@ -264,7 +284,7 @@ export default function App() {
                   <EncryptedText 
                     text="Generate unique software project ideas powered by ai." 
                     encryptedClassName="text-neutral-500" 
-                    revealedClassName="dark:text-white text-black" 
+                    revealedClassName="text-white" 
                     revealDelayMs={50} />
                 </div>
              </header>
@@ -497,9 +517,11 @@ export default function App() {
                 </div>
                 )}
             </section>
-            
-          </div>
-            <div className="h-[30rem] rounded-md flex flex-col antialiased bg-transparent dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden mt-10 w-full">
+          
+        </div>
+        </div>
+        <div className="relative z-10 bg-neutral-900">
+          <div className="h-[30rem] rounded-md flex flex-col antialiased bg-transparent dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden mt-10 w-full">
                 <InfiniteMovingCards
                     items={testimonials}
                     direction="right"
@@ -514,6 +536,7 @@ export default function App() {
               showDividers={true}
               className=""
             />
+          </div>
           </div>
       </div>
 
@@ -537,9 +560,10 @@ export default function App() {
                 onLoginClick={() => setAuthView("login")}
               />
             )}
-          </div>
         </div>
+      </div>
       )}
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </div>
   );
 }
